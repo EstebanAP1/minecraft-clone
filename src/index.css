@@ -1,0 +1,50 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100dvw;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  overflow: hidden;
+}
+
+.pointer {
+  color: white;
+  font-size: 20px;
+  font-weight: 800;
+  opacity: 0.6;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.texture-selector {
+  position: absolute;
+  left: 50%;
+  bottom: 5vh;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  border: 1px solid #c6c6c6;
+  background: #c6c6c645;
+
+  img {
+    width: 60px;
+    padding: 8px;
+    image-rendering: pixelated;
+  }
+
+  img.selected {
+    background: #c6c6c645;
+  }
+}
