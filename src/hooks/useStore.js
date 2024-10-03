@@ -3,32 +3,37 @@ import { create } from 'zustand'
 
 const WORLD = [10, 10]
 
+// const defaultCubes = (() => {
+//   const cubes = []
+
+//   for (let x = -5; x < WORLD[0] - 5; x++) {
+//     for (let z = -5; z < WORLD[1] - 5; z++) {
+//       const cube = {
+//         id: nanoid(),
+//         pos: [x, 1, z],
+//         texture: 'grass'
+//       }
+//       const cube2 = {
+//         id: nanoid(),
+//         pos: [x, 0, z],
+//         texture: 'unbreakable'
+//       }
+//       cubes.push(cube)
+//       cubes.push(cube2)
+//     }
+//   }
+
+//   return cubes
+// })()
+
 const defaultCubes = (() => {
-  const cubes = []
-
-  for (let x = -5; x < WORLD[0] - 5; x++) {
-    for (let z = -5; z < WORLD[1] - 5; z++) {
-      const cube = {
-        id: nanoid(),
-        pos: [x, 1, z],
-        texture: 'grass'
-      }
-      const cube2 = {
-        id: nanoid(),
-        pos: [x, 0, z],
-        texture: 'unbreakable'
-      }
-      cubes.push(cube)
-      cubes.push(cube2)
-    }
-  }
-
-  return cubes
+  return JSON.parse(localStorage.getItem('cubes')) || []
 })()
 
 export const useStore = create((set, get) => ({
   texture: 'dirt',
   cubes: defaultCubes,
+  cameraLocked: false,
   addCube: (x, y, z) => {
     const { cubes } = get()
     const cube = cubes.filter(
@@ -48,13 +53,17 @@ export const useStore = create((set, get) => ({
     }
   },
   removeCube: id => {
-    const { cubes } = get()
-    const cube = cubes.filter(cube => cube.id === id)[0]
-    if (cube.texture === 'unbreakable') return
     set(state => ({
       cubes: state.cubes.filter(cube => cube.id !== id)
     }))
   },
-  saveWorld: () => {},
-  resetWorld: () => {}
+  saveWorld: () => {
+    localStorage.setItem('cubes', JSON.stringify(get().cubes))
+  },
+  resetWorld: () => {
+    set({
+      cubes: []
+    })
+    localStorage.removeItem('cubes')
+  }
 }))

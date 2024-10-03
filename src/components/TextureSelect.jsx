@@ -13,8 +13,6 @@ export function TextureSelector() {
       const texture = TEXTURES_KEYS_MAP[code]
       if (texture) {
         useStore.setState({ texture })
-
-        console.log(texture)
       }
     }
 
@@ -27,14 +25,18 @@ export function TextureSelector() {
 
   return (
     <div className='texture-selector'>
-      {Object.entries(images).map(([imgKey, image]) => {
+      {Object.entries(images).map(([imgKey, image], index) => {
         return (
-          <img
-            key={imgKey}
-            src={image}
-            alt={imgKey}
-            className={texture === imgKey.replace('Img', '') ? 'selected' : ''}
-          />
+          <div key={imgKey}>
+            <span>{index + 1}</span>
+            <img
+              src={image}
+              alt={imgKey}
+              className={
+                texture === imgKey.replace('Img', '') ? 'selected' : ''
+              }
+            />
+          </div>
         )
       })}
     </div>

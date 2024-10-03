@@ -1,4 +1,4 @@
-import { useSphere } from '@react-three/cannon'
+import { useBox, useSphere } from '@react-three/cannon'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect } from 'react'
 import { useRef } from 'react'
@@ -7,7 +7,7 @@ import { useMovement } from '../hooks/useMovement'
 
 const WALK_SPEED = 2
 const RUN_SPEED = 5
-const CHARACTER_JUMP_FORCE = 4
+const CHARACTER_JUMP_FORCE = 6
 
 export function Player() {
   const { moveForward, moveBackward, moveLeft, moveRight, jump, run } =
@@ -15,8 +15,8 @@ export function Player() {
 
   const { camera } = useThree()
   const [ref, api] = useSphere(() => ({
-    mass: 3,
-    type: 'Dynamyc',
+    mass: 1,
+    type: 'Dynamic',
     position: [0, 4.5, 0]
   }))
 
@@ -29,10 +29,10 @@ export function Player() {
 
   const vel = useRef([0, 0, 0])
   useEffect(() => {
-    api.velocity.subscribe(p => {
+    api?.velocity.subscribe(p => {
       vel.current = p
     })
-  }, [api.velocity])
+  }, [api?.velocity])
 
   useFrame(() => {
     camera.position.copy(
@@ -60,10 +60,10 @@ export function Player() {
     direction.multiplyScalar(speed)
     direction.applyEuler(camera.rotation)
 
-    api.velocity.set(direction.x, vel.current[1], direction.z)
+    api?.velocity.set(direction.x, vel.current[1], direction.z)
 
     if (jump && Math.abs(vel.current[1]) < 0.005) {
-      api.velocity.set(vel.current[0], CHARACTER_JUMP_FORCE, vel.current[2])
+      api?.velocity.set(vel.current[0], CHARACTER_JUMP_FORCE, vel.current[2])
     }
   })
 

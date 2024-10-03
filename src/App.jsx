@@ -6,6 +6,8 @@ import { FPV as Fpv } from './components/FPV'
 import { Player } from './components/Player'
 import { Cubes } from './components/Cubes'
 import { TextureSelector } from './components/TextureSelect'
+import { WorldOptions } from './components/WorldOptions'
+import { ClickToStart } from './components/ClickToStart'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Ground />
         </Physics>
       </Canvas>
+      <ClickToStart />
+      <WorldOptions />
       <TextureSelector />
       <div className='pointer'>+</div>
     </>
